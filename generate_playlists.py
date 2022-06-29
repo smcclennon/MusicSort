@@ -1,3 +1,5 @@
+# Create m3u playlists from directory names
+
 import os
 from pathlib import Path
 
