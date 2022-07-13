@@ -19,8 +19,17 @@ def scan_music(directory):
 
     # Get list of all files in the directory
     files = Path(directory).iterdir()
+    music_files = []
+    # Iterate through every file found in the directory
+    for file in files:
+        # If the file is an acceptable file format
+        if Path(file).suffix in music_formats:
+            # Add to music found list
+            music_files.append(file)
+            #print(f'Found valid file: {file}')
+
     # Return results
-    return [file for file in files if Path(file).suffix in music_formats]
+    return music_files
 
 def split_genres(files):
     print('Organising music by genre...')
