@@ -6,8 +6,7 @@ from pathlib import Path
 music_formats = ['.flac', '.mp3']
 
 def listfiles(directory):
-    files = os.listdir(directory)
-    return files
+    return os.listdir(directory)
 
 def scan_music(directory):
     
@@ -31,8 +30,8 @@ def scan_music(directory):
     return music_files
 
 def create_playlist(directory, music_files):
-    playlist_name = directory + '.m3u8'
-    
+    playlist_name = f'{directory}.m3u8'
+
     with open(playlist_name, 'w') as f:
         for file in music_files:
             file_entry = os.path.join(file)

@@ -10,58 +10,48 @@ music_files = []
 
 
 def listfiles(directory):
-    files = os.listdir(directory)
-    return files
+    return os.listdir(directory)
 
 # Assume music is 1 directory level lower from current position
 # Return valid music files as list
 def scan_music(directory):
     print(f'Scanning for music in directory: {directory}')
-    
+
     # Get list of all files in the directory
     files = Path(directory).iterdir()
-    music_files = []
-    # Iterate through every file found in the directory
-    for file in files:
-        # If the file is an acceptable file format
-        if Path(file).suffix in music_formats:
-            # Add to music found list
-            music_files.append(file)
-            #print(f'Found valid file: {file}')
-            
     # Return results
-    return music_files
+    return [file for file in files if Path(file).suffix in music_formats]
 
 def split_genres(files):
-    print(f'Organising music by genre...')
+    print('Organising music by genre...')
     # Sort by file creation date, newest first
     files = reversed(
         sorted(files, key=os.path.getctime)
     )
 
     organised = {}
-    
+
     # For every file passed in
     for f in files:
-      
+
         # Try and extract the genre from metadata
         try:
             genre = mutagen.File(f)['genre'][0]
-        
+
         # If genre metadata does not exist
         except KeyError:
             genre = 'Unknown'
-        
+
         # If genre of the current file is new
         if genre not in organised:
-          
+
             # Initialise it
             organised[genre] = []
             print(f'Found new genre: {genre}')
-        
+
         # Enter file into the list within the appropriate genre key
         organised[genre].append(f)
-    
+
     return organised
 
 def create_playlist(music_data):
